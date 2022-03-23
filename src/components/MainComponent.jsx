@@ -1,28 +1,29 @@
-import React, {useState} from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
-import Menu from './MenuComponent';
-import { DISHES } from '../shared/dishes';
+import React, { useState } from "react";
+import HomeComponent from "./HomeComponent";
+import Menu from "./MenuComponent";
+import { DISHES } from "../shared/dishes";
 import DishdetailComponent from "./DishdetailComponent";
-
+import HeaderComponent from "./HeaderComponent";
+import FooterComponent from "./FooterComponent";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 function MainComponent() {
-
   const [dishes, setDishes] = useState(DISHES);
-  const [selectedDish, setSelectedDish] = useState(null);
-  const onDishSelected = (dishId) => {
-    setSelectedDish(dishId);
-  };
+  const HomePage = () => {
+    return(
+        <HomeComponent/>
+    );
+  }
 
   return (
     <div className="App">
-      <Navbar dark color="primary">
-      <NavbarBrand href="/">Risorante Con Fusion</NavbarBrand>
-        
-      </Navbar>
-      <Menu dishes={dishes}
-      onClick={(dishId) => onDishSelected(dishId)}/>
-      <DishdetailComponent 
-      dish={dishes.filter((dish) => dish.id === selectedDish)[0]}/>
+      <HeaderComponent />
+      <Routes>
+        <Route path="/home" element={HomePage()} />
+        <Route path="/menu" element={<Menu dishes={dishes}/>} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
+      </Routes>
+      <FooterComponent />
     </div>
   );
 }
