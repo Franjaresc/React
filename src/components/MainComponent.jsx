@@ -10,6 +10,7 @@ import DishdetailComponent from "./DishdetailComponent";
 import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
 import { Routes, Route, Navigate, useMatch } from "react-router-dom";
+import AboutComponent from "./AboutComponent";
 
 function MainComponent() {
   const [dishes, setDishes] = useState(DISHES);
@@ -45,6 +46,7 @@ function MainComponent() {
         <Route path="/menu" element={<Menu dishes={dishes} />} />
         <Route path="/menu/:dishId" element={<DishWithId/>} />
         <Route path="/contactus" element={<ContactComponent />} />
+        <Route path="/aboutus" element={<AboutComponent leaders={leaders}/>} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
       <FooterComponent />
