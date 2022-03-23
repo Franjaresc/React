@@ -1,7 +1,16 @@
 import React from "react";
-import { Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
+import { Link } from "react-router-dom";
 
-const RenderDish = ({dish}) => {
+const RenderDish = ({ dish }) => {
   return (
     <div className="col-12 col-md-5 m-1">
       <Card>
@@ -14,7 +23,7 @@ const RenderDish = ({dish}) => {
     </div>
   );
 };
-const RenderComments = ({comments}) => {
+const RenderComments = ({ comments }) => {
   return (
     <div className="col-12 col-md-5 m-1">
       <h4>Comments</h4>
@@ -40,21 +49,30 @@ const RenderComments = ({comments}) => {
 };
 
 function DishdetailComponent(props) {
-  if (props.dish!=null) {
+  if (props.dish != null) {
+    console.log(props.dish);
     return (
       <div className="container">
         <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/menu">Menu</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>{props.dish.name}</h3>
+            <hr />
+          </div>
+        </div>
+        <div className="row">
           <RenderDish dish={props.dish} />
-          <RenderComments comments={props.dish.comments} />
+          <RenderComments comments={props.comments} />
         </div>
       </div>
     );
-  }
-  else {
+  } else {
     return <div></div>;
   }
-  
-
-  
 }
 export default DishdetailComponent;

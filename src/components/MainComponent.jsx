@@ -9,7 +9,7 @@ import { LEADERS } from "../shared/leaders";
 import DishdetailComponent from "./DishdetailComponent";
 import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useMatch } from "react-router-dom";
 
 function MainComponent() {
   const [dishes, setDishes] = useState(DISHES);
@@ -27,12 +27,23 @@ function MainComponent() {
     );
   };
 
+  const DishWithId = () => {
+    const match = useMatch("/menu/:dishId");
+    return (
+      <DishdetailComponent
+        dish={dishes.filter((dish) => dish.id === parseInt(match.params.dishId))[0]}
+        comments={comments.filter((comment) => comment.dishId === parseInt(match.params.dishId))}
+      />
+    );
+  };
+
   return (
     <div className="App">
       <HeaderComponent />
       <Routes>
-        <Route path="/home" element={HomePage()} />
+        <Route path="/home" element={<HomePage/>} />
         <Route path="/menu" element={<Menu dishes={dishes} />} />
+        <Route path="/menu/:dishId" element={<DishWithId/>} />
         <Route path="/contactus" element={<ContactComponent />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
