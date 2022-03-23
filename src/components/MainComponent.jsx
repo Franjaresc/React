@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import HomeComponent from "./HomeComponent";
 import Menu from "./MenuComponent";
+import ContactComponent from "./ContactComponent";
 import { DISHES } from "../shared/dishes";
+import { COMMENTS } from "../shared/comments";
+import { PROMOTIONS } from "../shared/promotions";
+import { LEADERS } from "../shared/leaders";
 import DishdetailComponent from "./DishdetailComponent";
 import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
@@ -9,18 +13,27 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 function MainComponent() {
   const [dishes, setDishes] = useState(DISHES);
+  const [comments, setComments] = useState(COMMENTS);
+  const [promotions, setPromotions] = useState(PROMOTIONS);
+  const [leaders, setLeaders] = useState(LEADERS);
+
   const HomePage = () => {
-    return(
-        <HomeComponent/>
+    return (
+      <HomeComponent
+        dish={dishes.filter((dish) => dish.featured)[0]}
+        promotion={promotions.filter((promo) => promo.featured)[0]}
+        leader={leaders.filter((leader) => leader.featured)[0]}
+      />
     );
-  }
+  };
 
   return (
     <div className="App">
       <HeaderComponent />
       <Routes>
         <Route path="/home" element={HomePage()} />
-        <Route path="/menu" element={<Menu dishes={dishes}/>} />
+        <Route path="/menu" element={<Menu dishes={dishes} />} />
+        <Route path="/contactus" element={<ContactComponent />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
       <FooterComponent />
