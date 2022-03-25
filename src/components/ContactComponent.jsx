@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col} from "reactstrap";
+import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col, Row, FormFeedback} from "reactstrap";
 import { Link } from "react-router-dom";
 
 function ContactComponent() {
@@ -11,12 +11,64 @@ function ContactComponent() {
   const [agree, setAgree] = useState(false);
   const [contactType, setContactType] = useState("Tel.");
   const [message, setMessage] = useState("");
+  const [touched, setTouched] = useState({
+    firstName: false,
+    lastName: false,
+    telNum: false,
+    email: false,
+    agree: false,
+    contactType: false,
+    message: false
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('current state is: '+ JSON.stringify({firstName, lastName, telNum, email, agree, contactType, message}));
     alert('current state is: '+ JSON.stringify({firstName, lastName, telNum, email, agree, contactType, message}));
   }
+
+  const handleBlur = (field) => () => {
+    setTouched({ ...touched, [field]: true });
+  }
+
+  const validate = () => {
+    const Errors = {
+      firstName: "",
+      lastName: "",
+      telNum: "",
+      email: "",
+      agree: "",
+      contactType: "",
+      message: ""
+    };
+
+    if (touched.firstName && firstName.length < 3) {
+      Errors.firstName = "First Name must be at least 3 characters";
+    }
+    if (touched.lastName && lastName.length < 3) {
+      Errors.lastName = "Last Name must be at least 3 characters";
+    }
+    const reg = /^\d+$/;
+    if (touched.telNum && telNum && !reg.test(telNum)) {
+      Errors.telNum = "Tel. Number must contain only numbers";
+    }
+    if (touched.email && email.split('').filter(x => x === '@').length !== 1) {
+      Errors.email = "Email must be a valid email address";
+    }
+    if (touched.agree && !agree) {
+      Errors.agree = "Must agree to terms and conditions";
+    }
+    if (touched.contactType && contactType === "") {
+      Errors.contactType = "Please select contact type";
+    }
+    if (touched.message && message.length < 15) {
+      Errors.message = "Message must be at least 15 characters";
+    }
+
+    return Errors;
+  };
+
+  const errors = validate();
 
   return (
     <div className="container">
@@ -93,8 +145,12 @@ function ContactComponent() {
                   name="firstName"
                   placeholder="First Name"
                   value={firstName}
+                  valid={errors.firstName === ""}
+                  invalid={errors.firstName !== ""}
+                  onBlur={handleBlur("firstName")}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
+                <FormFeedback>{errors.firstName}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -108,8 +164,12 @@ function ContactComponent() {
                   name="lastName"
                   placeholder="Last Name"
                   value={lastName}
+                  valid={errors.lastName === ""}
+                  invalid={errors.lastName !== ""}
+                  onBlur={handleBlur("lastName")}
                   onChange={(e) => setLastName(e.target.value)}
                 />
+                <FormFeedback>{errors.lastName}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -123,8 +183,12 @@ function ContactComponent() {
                   name="telNum"
                   placeholder="Tel. Number"
                   value={telNum}
+                  valid={errors.telNum === ""}
+                  invalid={errors.telNum !== ""}
+                  onBlur={handleBlur("telNum")}
                   onChange={(e) => setTelNum(e.target.value)}
                 />
+                <FormFeedback>{errors.telNum}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -138,8 +202,12 @@ function ContactComponent() {
                   name="email"
                   placeholder="Email"
                   value={email}
+                  valid={errors.email === ""}
+                  invalid={errors.email !== ""}
+                  onBlur={handleBlur("email")}
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                <FormFeedback>{errors.email}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -151,22 +219,30 @@ function ContactComponent() {
                       name="agree"
                       id="agree"
                       checked={agree}
+                      valid={errors.agree === ""}
+                      invalid={errors.agree !== ""}
+                      onBlur={handleBlur("agree")}
                       onChange={(e) => setAgree(e.target.checked)}
                     />{" "}
                     <strong>May we contact you?</strong>
                   </Label>
                 </FormGroup>
+                <FormFeedback>{errors.agree}</FormFeedback>
               </Col>
               <Col md={{ size: 3, offset: 1 }}>
                 <Input
                   type="select"
                   name="contactType"
                   value={contactType}
+                  valid={errors.contactType === ""}
+                  invalid={errors.contactType !== ""}
+                  onBlur={handleBlur("contactType")}
                   onChange={(e) => setContactType(e.target.value)}
                 >
                   <option value="Tel.">Tel.</option>
                   <option value="Email">Email</option>
                 </Input>
+                <FormFeedback>{errors.contactType}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -180,8 +256,12 @@ function ContactComponent() {
                   name="message"
                   rows="12"
                   value={message}
+                  valid={errors.message === ""}
+                  invalid={errors.message !== ""}
+                  onBlur={handleBlur("message")}
                   onChange={(e) => setMessage(e.target.value)}
                 />
+                <FormFeedback>{errors.message}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
