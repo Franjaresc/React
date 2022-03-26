@@ -25,10 +25,32 @@ function ContactComponent() {
     e.preventDefault();
     console.log('current state is: '+ JSON.stringify({firstName, lastName, telNum, email, agree, contactType, message}));
     alert('current state is: '+ JSON.stringify({firstName, lastName, telNum, email, agree, contactType, message}));
+    resetForm();
+    resetTouched();
   }
 
   const handleBlur = (field) => () => {
     setTouched({ ...touched, [field]: true });
+  }
+  const resetForm = () => {
+    setFirstName("");
+    setLastName("");
+    setTelNum("");
+    setEmail("");
+    setAgree(false);
+    setContactType("Tel.");
+    setMessage("");
+  }
+  const resetTouched = () => {
+    setTouched({
+      firstName: false,
+      lastName: false,
+      telNum: false,
+      email: false,
+      agree: false,
+      contactType: false,
+      message: false
+    });
   }
 
   const validate = () => {

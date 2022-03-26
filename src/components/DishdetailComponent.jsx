@@ -50,7 +50,6 @@ const RenderComments = ({ comments }) => {
 
 function DishdetailComponent(props) {
   if (props.dish != null) {
-    console.log(props.dish);
     return (
       <div className="container">
         <div className="row">

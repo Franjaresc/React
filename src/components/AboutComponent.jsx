@@ -14,11 +14,11 @@ const RenderLeader = ({ leaders }) => {
       {leaders.map((leader) => {
         return (
           <div key={leader.id} className="col-12 mt-5">
-            <div class="d-flex">
-              <div class="flex-shrink-0">
+            <div className="d-flex">
+              <div className="flex-shrink-0">
                 <img src={leader.image} alt={leader.name} />
               </div>
-              <div class="flex-grow-1 ms-3">
+              <div className="flex-grow-1 ms-3">
                 <h3>{leader.name}</h3>
                 <h5>{leader.designation}</h5>
                 <p>{leader.description}</p>
