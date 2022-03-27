@@ -31,7 +31,6 @@ function Menu(props) {
       </div>
     );
   });
-  console.log(props);
   if (props.dishes.loading) {
     return (
       <div className="container">

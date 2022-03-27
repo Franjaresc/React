@@ -10,6 +10,7 @@ import { Routes, Route, Navigate, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addComment } from "../redux/commentSlice";
 import { fetchDishes } from "../redux/dishSlice";
+import { actions } from "react-redux-form"
 
 function MainComponent() {
   const dishes = useSelector((state) => state.dish);
@@ -63,7 +64,7 @@ function MainComponent() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/menu" element={<Menu dishes={dishes} />} />
         <Route path="/menu/:dishId" element={<DishWithId />} />
-        <Route path="/contactus" element={<ContactComponent />} />
+        <Route path="/contactus" element={<ContactComponent resetFeedbackForm={() => dispatch(actions.reset("feedback"))} />} />
         <Route path="/aboutus" element={<AboutComponent leaders={leaders} />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
