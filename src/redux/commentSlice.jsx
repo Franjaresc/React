@@ -1,10 +1,10 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { COMMENTS } from "../shared/comments";
+import {baseUrl} from "../shared/baseUrl";
 
 const initialState = {
-    comments: COMMENTS,
-    loading: false,
+    comments: [],
+    loading: true,
     errMess: null,
 };
 
@@ -18,9 +18,35 @@ const commentSlice = createSlice({
         },
         addComment: (state, action) => {
             state.comments.push(action.payload);
+        },
+        commentsFailed: (state, action) => {
+            state.loading = false;
+            state.errMess = action.payload;
+        },
+        addComments: (state, action) => {
+            state.comments = action.payload;
+            state.loading = false;
         }
     }
 });
+
+export const fetchComments = () => (dispatch) => {
+    dispatch(commentSlice.actions.commentsLoading());
+    return fetch(baseUrl + "comments")
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error("Something went wrong!");
+            }
+        })
+        .then((comments) => {
+            dispatch(commentSlice.actions.addComments(comments));
+        })
+        .catch((err) => {
+            dispatch(commentSlice.actions.commentsFailed(err.message));
+        });
+};
 
 export const { commentsLoading, addComment } = commentSlice.actions;
 

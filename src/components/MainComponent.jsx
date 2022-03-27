@@ -8,19 +8,24 @@ import FooterComponent from "./FooterComponent";
 import AboutComponent from "./AboutComponent";
 import { Routes, Route, Navigate, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addComment } from "../redux/commentSlice";
+import { addComment, fetchComments } from "../redux/commentSlice";
 import { fetchDishes } from "../redux/dishSlice";
+import { fetchPromotions } from "../redux/promotionSlice";
+import { fetchLeaders } from "../redux/leaderSlice";
 import { actions } from "react-redux-form"
 
 function MainComponent() {
   const dishes = useSelector((state) => state.dish);
-  const comments = useSelector((state) => state.comment.comments);
-  const promotions = useSelector((state) => state.promotion.promotions);
-  const leaders = useSelector((state) => state.leader.leaders);
+  const comments = useSelector((state) => state.comment);
+  const promotions = useSelector((state) => state.promotion);
+  const leaders = useSelector((state) => state.leader);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchDishes());
+    dispatch(fetchComments());
+    dispatch(fetchPromotions());
+    dispatch(fetchLeaders());
   }, [dispatch]);
 
   const HomePage = () => {
@@ -30,8 +35,12 @@ function MainComponent() {
         dish={dishes.dishes.filter((dish) => dish.featured)[0]}
         dishesLoading={dishes.loading}
         dishesErrMess={dishes.errMess}
-        promotion={promotions.filter((promo) => promo.featured)[0]}
-        leader={leaders.filter((leader) => leader.featured)[0]}
+        promotion={promotions.promotions.filter((promo) => promo.featured)[0]}
+        promoLoading={promotions.loading}
+        promoErrMess={promotions.errMess}
+        leader={leaders.leaders.filter((leader) => leader.featured)[0]}
+        leaderLoading={leaders.loading}
+        leaderErrMess={leaders.errMess}
       />
     );
   };
@@ -47,9 +56,11 @@ function MainComponent() {
         }
         isLoading={dishes.loading}
         errMess={dishes.errMess}
-        comments={comments.filter(
+        comments={comments.comments.filter(
           (comment) => comment.dishId === parseInt(match.params.dishId)
         )}
+        commentsErrMess={comments.errMess}
+        commentsLoading={comments.loading}
         addComment={(dishId, rating, author, comment) =>
           dispatch(addComment(dishId, rating, author, comment))
         }
