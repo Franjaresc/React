@@ -15,8 +15,13 @@ const commentSlice = createSlice({
         commentsLoading: (state, action) => {
             state.loading = true;
             state.errMess = null;
+        },
+        addComment: (state, action) => {
+            state.comments.push(action.payload);
         }
     }
 });
+
+export const { commentsLoading, addComment } = commentSlice.actions;
 
 export default commentSlice.reducer;

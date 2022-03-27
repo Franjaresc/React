@@ -8,6 +8,7 @@ import FooterComponent from "./FooterComponent";
 import AboutComponent from "./AboutComponent";
 import { Routes, Route, Navigate, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { addComment } from "../redux/commentSlice";
 
 function MainComponent() {
   const dishes = useSelector((state) => state.dish.dishes);
@@ -17,6 +18,7 @@ function MainComponent() {
   const dispatch = useDispatch();
   
   const HomePage = () => {
+    console.log(dispatch);
     return (
       <HomeComponent
         dish={dishes.filter((dish) => dish.featured)[0]}
@@ -32,6 +34,7 @@ function MainComponent() {
       <DishdetailComponent
         dish={dishes.filter((dish) => dish.id === parseInt(match.params.dishId))[0]}
         comments={comments.filter((comment) => comment.dishId === parseInt(match.params.dishId))}
+        addComment={(dishId,rating,author,comment) => dispatch(addComment(dishId,rating,author,comment))}
       />
     );
   };
