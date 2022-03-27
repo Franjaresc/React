@@ -1,23 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { DISHES } from "../shared/dishes";
+import { PROMOTIONS } from "../shared/promotions";
 
 const initialState = {
-    dishes: DISHES,
-    selectedDish: null,
+    promotions: PROMOTIONS,
     loading: false,
     errMess: null,
 };
 
-const dishSlice = createSlice({
-    name: "dish",
+const promotionSlice = createSlice({
+    name: "promotion",
     initialState,
     reducers: {
-        dishesLoading: (state, action) => {
+        promotionsLoading: (state, action) => {
             state.loading = true;
             state.errMess = null;
         }
     }
 });
 
-
-export default dishSlice.reducer;
+export default promotionSlice.reducer;

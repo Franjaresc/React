@@ -11,9 +11,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 function MainComponent() {
   const dishes = useSelector((state) => state.dish.dishes);
-  const comments = useSelector((state) => state.dish.comments);
-  const promotions = useSelector((state) => state.dish.promotions);
-  const leaders = useSelector((state) => state.dish.leaders);
+  const comments = useSelector((state) => state.comment.comments);
+  const promotions = useSelector((state) => state.promotion.promotions);
+  const leaders = useSelector((state) => state.leader.leaders);
   const dispatch = useDispatch();
   
   const HomePage = () => {

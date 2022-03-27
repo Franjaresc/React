@@ -1,23 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { DISHES } from "../shared/dishes";
+import { LEADERS } from "../shared/leaders";
 
 const initialState = {
-    dishes: DISHES,
-    selectedDish: null,
+    leaders: LEADERS,
+    selectedLeader: null,
     loading: false,
     errMess: null,
 };
 
-const dishSlice = createSlice({
-    name: "dish",
+const leaderSlice = createSlice({
+    name: "leader",
     initialState,
     reducers: {
-        dishesLoading: (state, action) => {
+        leadersLoading: (state, action) => {
             state.loading = true;
             state.errMess = null;
         }
     }
 });
 
-
-export default dishSlice.reducer;
+export default leaderSlice.reducer;
