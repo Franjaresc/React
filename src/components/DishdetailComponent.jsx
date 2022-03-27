@@ -32,7 +32,7 @@ const CommentForm = (props) => {
 
   const handleSubmit = (values) => {
     toggleModal();
-    props.addComment({dishId: props.dishId,rating: values.rating,author: values.author,comment: values.comment, date: new Date().toISOString()});
+    props.postComment(props.dishId, values.rating, values.author, values.comment);
   };
 
   return (
@@ -128,7 +128,7 @@ const RenderDish = ({ dish }) => {
     </div>
   );
 };
-const RenderComments = ({ comments, addComment, dishId }) => {
+const RenderComments = ({ comments, postComment, dishId }) => {
   return (
     <div className="col-12 col-md-5 m-1">
       <h4>Comments</h4>
@@ -149,7 +149,7 @@ const RenderComments = ({ comments, addComment, dishId }) => {
           );
         })}
       </ul>
-      <CommentForm dishId={dishId} addComment={addComment} />
+      <CommentForm dishId={dishId} postComment={postComment} />
     </div>
   );
 };
@@ -190,7 +190,7 @@ function DishdetailComponent(props) {
         </div>
         <div className="row">
           <RenderDish dish={props.dish} />
-          <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
+          <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id} />
         </div>
       </div>
     );

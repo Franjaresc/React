@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {baseUrl} from "../shared/baseUrl";
+import { baseUrl } from "../shared/baseUrl";
 
 const initialState = {
   dishes: [],
@@ -43,21 +43,26 @@ const dishSlice = createSlice({
 });
 
 export const fetchDishes = () => (dispatch) => {
-    dispatch(dishSlice.actions.dishesLoading());
-    return fetch(baseUrl + "dishes")
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw new Error("Something went wrong!");
-            }
-        })
-        .then((dishes) => {
-            dispatch(dishSlice.actions.addDishes(dishes));
-        })
-        .catch((err) => {
-            dispatch(dishSlice.actions.dishesFailed(err.message));
-        });
+  dispatch(dishSlice.actions.dishesLoading());
+  return fetch(baseUrl + "dishes")
+    .then(
+      (res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Something went wrong!");
+        }
+      },
+      (err) => {
+        dispatch(dishSlice.actions.dishesFailed(err.message));
+      }
+    )
+    .then((dishes) => {
+      dispatch(dishSlice.actions.addDishes(dishes));
+    })
+    .catch((err) => {
+      dispatch(dishSlice.actions.dishesFailed(err.message));
+    });
 };
 
 export default dishSlice.reducer;

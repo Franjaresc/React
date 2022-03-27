@@ -8,7 +8,7 @@ import FooterComponent from "./FooterComponent";
 import AboutComponent from "./AboutComponent";
 import { Routes, Route, Navigate, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addComment, fetchComments } from "../redux/commentSlice";
+import { postComment, fetchComments } from "../redux/commentSlice";
 import { fetchDishes } from "../redux/dishSlice";
 import { fetchPromotions } from "../redux/promotionSlice";
 import { fetchLeaders } from "../redux/leaderSlice";
@@ -61,8 +61,8 @@ function MainComponent() {
         )}
         commentsErrMess={comments.errMess}
         commentsLoading={comments.loading}
-        addComment={(dishId, rating, author, comment) =>
-          dispatch(addComment(dishId, rating, author, comment))
+        postComment={(dishId, rating, author, comment) =>
+          dispatch(postComment(dishId, rating, author, comment))
         }
       />
     );

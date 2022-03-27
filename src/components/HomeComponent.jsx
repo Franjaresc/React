@@ -11,6 +11,7 @@ import { baseUrl } from "../shared/baseUrl";
 import LoadingComponent from "./LoadingComponent";
 
 const RenderCard = ({ item, isLoading, errMess }) => {
+  
   if (isLoading) {
     return <LoadingComponent />;
   } else if (errMess) {
