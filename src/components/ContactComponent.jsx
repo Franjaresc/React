@@ -34,7 +34,6 @@ const composeValidators =
     );
 
 function ContactComponent(props) {
-  console.log(props);
   const onSubmit = (values) => {
     props.postFeedback(
       values.firstname,
