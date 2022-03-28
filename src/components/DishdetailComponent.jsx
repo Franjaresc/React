@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { Form, Field } from "react-final-form";
 import LoadingComponent from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
+import { motion } from "framer-motion";
 
 const required = (value) => (value ? undefined : "Required");
 const maxLength = (max) => (value) =>
@@ -50,7 +51,12 @@ const CommentForm = (props) => {
   const onSubmit = (values) => {
     console.log("onSubmit", values);
     toggleModal();
-    props.postComment(props.dishId, values.rating, values.author, values.comment);
+    props.postComment(
+      props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
   };
 
   return (
@@ -67,7 +73,7 @@ const CommentForm = (props) => {
             render={({ handleSubmit, form, submitting, pristine, values }) => (
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label>Rating</label>
+                  <Label>Rating</Label>
                   <Field
                     name="rating"
                     component="select"
@@ -87,7 +93,7 @@ const CommentForm = (props) => {
                   {({ input, meta }) => (
                     <Row>
                       <Col md={12}>
-                        <label>Name</label>
+                        <Label>Name</Label>
                         <input
                           {...input}
                           type="text"
@@ -106,7 +112,7 @@ const CommentForm = (props) => {
                   {({ input, meta }) => (
                     <Row>
                       <Col md={12}>
-                        <label>Comment</label>
+                        <Label>Comment</Label>
                         <textarea
                           {...input}
                           type="text"
@@ -150,7 +156,11 @@ const CommentForm = (props) => {
 
 const RenderDish = ({ dish }) => {
   return (
-    <div className="col-12 col-md-5 m-1">
+    <motion.div className="col-12 col-md-5 m-1"
+      initial={{ opacity: 0, translateX: -100 }}
+      animate={{ opacity: 1, translateX: 0 }}
+      transition={{ duration: 1 }}
+    >
       <Card>
         <CardImg top src={baseUrl + dish.image} alt={dish.name} />
         <CardBody>
@@ -158,7 +168,7 @@ const RenderDish = ({ dish }) => {
           <CardText>{dish.description}</CardText>
         </CardBody>
       </Card>
-    </div>
+    </motion.div>
   );
 };
 const RenderComments = ({ comments, postComment, dishId }) => {
@@ -166,9 +176,14 @@ const RenderComments = ({ comments, postComment, dishId }) => {
     <div className="col-12 col-md-5 m-1">
       <h4>Comments</h4>
       <ul className="list-unstyled">
-        {comments.map((comment) => {
+        {comments.map((comment,i) => {
           return (
-            <li key={comment.id}>
+            <motion.div
+              key={comment.id}
+              initial={{ opacity: 0, translateX: -100 }}
+              animate={{ opacity: 1, translateX: 0 }}
+              transition={{ duration: 1, delay: i * 0.3 }}
+            >
               <p>{comment.comment}</p>
               <p>
                 -- {comment.author},{" "}
@@ -187,7 +202,7 @@ const RenderComments = ({ comments, postComment, dishId }) => {
                 <span className="text-warning">{comment.rating} Stars</span>{" "}
                 <br />
               </p>
-            </li>
+            </motion.div>
           );
         })}
       </ul>
@@ -216,7 +231,11 @@ function DishdetailComponent(props) {
   } else if (props.dish != null) {
     return (
       <div className="container">
-        <div className="row">
+        <motion.div className="row"
+          initial={{ opacity: 0, translateX: -100 }}
+          animate={{ opacity: 1, translateX: 0 }}
+          transition={{ duration: 1 }}
+        >
           <Breadcrumb>
             <BreadcrumbItem>
               <Link to="/menu">Menu</Link>
@@ -227,7 +246,7 @@ function DishdetailComponent(props) {
             <h3>{props.dish.name}</h3>
             <hr />
           </div>
-        </div>
+        </motion.div>
         <div className="row">
           <RenderDish dish={props.dish} />
           <RenderComments

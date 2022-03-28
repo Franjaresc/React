@@ -9,22 +9,28 @@ import {
 } from "reactstrap";
 import { baseUrl } from "../shared/baseUrl";
 import LoadingComponent from "./LoadingComponent";
+import { motion } from "framer-motion";
 
 const RenderCard = ({ item, isLoading, errMess }) => {
-  
   if (isLoading) {
     return <LoadingComponent />;
   } else if (errMess) {
     return <h4>{errMess}</h4>;
   } else {
     return (
-      <Card>
-        <CardImg top src={baseUrl + item.image} alt={item.name} />
-        <CardBody>
-          <CardTitle>{item.name}</CardTitle>
-          <CardText>{item.description}</CardText>
-        </CardBody>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, translateY: +100 }}
+        animate={{ opacity: 1, translateY: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <Card>
+          <CardImg top src={baseUrl + item.image} alt={item.name} />
+          <CardBody>
+            <CardTitle>{item.name}</CardTitle>
+            <CardText>{item.description}</CardText>
+          </CardBody>
+        </Card>
+      </motion.div>
     );
   }
 };
