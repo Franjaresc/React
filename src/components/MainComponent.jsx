@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { postComment, fetchComments } from "../redux/commentSlice";
+import { fetchFeedbacks, postFeedback } from "../redux/feedbackSlice";
 import { fetchDishes } from "../redux/dishSlice";
 import { fetchPromotions } from "../redux/promotionSlice";
 import { fetchLeaders } from "../redux/leaderSlice";
@@ -26,6 +27,7 @@ function MainComponent(props) {
   const comments = useSelector((state) => state.comment);
   const promotions = useSelector((state) => state.promotion);
   const leaders = useSelector((state) => state.leader);
+  const feedbacks = useSelector((state) => state.feedbacks);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -34,6 +36,7 @@ function MainComponent(props) {
     dispatch(fetchComments());
     dispatch(fetchPromotions());
     dispatch(fetchLeaders());
+    dispatch(fetchFeedbacks());
   }, [dispatch]);
 
   const HomePage = () => {
@@ -88,6 +91,8 @@ function MainComponent(props) {
               element={
                 <ContactComponent
                   resetFeedbackForm={() => dispatch(actions.reset("feedback"))}
+                  postFeedback={(firstname, lastname, telnum, email, agree, contactType, message, id) => dispatch(postFeedback(firstname, lastname, telnum, email, agree, contactType, message, id))}
+                  feedbacks={feedbacks}
                 />
               }
             />

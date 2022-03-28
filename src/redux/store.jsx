@@ -3,6 +3,7 @@ import dishReducer from './dishSlice'
 import commentReducer from './commentSlice'
 import promotionReducer from './promotionSlice'
 import leaderReducer from './leaderSlice'
+import feedbacksReducer from './feedbackSlice'
 import { createForms } from 'react-redux-form'
 import { InitialFeedback } from './form'
 
@@ -14,6 +15,8 @@ export default configureStore({
     leader: leaderReducer,
     ...createForms({
       feedback: InitialFeedback,
-    })
+    }),
+    feedbacks: feedbacksReducer,
+
   },
 })
