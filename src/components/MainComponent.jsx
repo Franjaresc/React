@@ -6,20 +6,28 @@ import DishdetailComponent from "./DishdetailComponent";
 import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
 import AboutComponent from "./AboutComponent";
-import { Routes, Route, Navigate, useMatch } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useMatch,
+  useLocation,
+} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { postComment, fetchComments } from "../redux/commentSlice";
 import { fetchDishes } from "../redux/dishSlice";
 import { fetchPromotions } from "../redux/promotionSlice";
 import { fetchLeaders } from "../redux/leaderSlice";
-import { actions } from "react-redux-form"
+import { actions } from "react-redux-form";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-function MainComponent() {
+function MainComponent(props) {
   const dishes = useSelector((state) => state.dish);
   const comments = useSelector((state) => state.comment);
   const promotions = useSelector((state) => state.promotion);
   const leaders = useSelector((state) => state.leader);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchDishes());
@@ -29,7 +37,6 @@ function MainComponent() {
   }, [dispatch]);
 
   const HomePage = () => {
-    
     return (
       <HomeComponent
         dish={dishes.dishes.filter((dish) => dish.featured)[0]}
@@ -67,18 +74,31 @@ function MainComponent() {
       />
     );
   };
-
   return (
     <div className="App">
       <HeaderComponent />
-      <Routes>
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/menu" element={<Menu dishes={dishes} />} />
-        <Route path="/menu/:dishId" element={<DishWithId />} />
-        <Route path="/contactus" element={<ContactComponent resetFeedbackForm={() => dispatch(actions.reset("feedback"))} />} />
-        <Route path="/aboutus" element={<AboutComponent leaders={leaders} />} />
-        <Route path="*" element={<Navigate to="/home" replace />} />
-      </Routes>
+      <TransitionGroup>
+        <CSSTransition key={location.key} classNames="fade" timeout={300}>
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/menu" element={<Menu dishes={dishes} />} />
+            <Route path="/menu/:dishId" element={<DishWithId />} />
+            <Route
+              path="/contactus"
+              element={
+                <ContactComponent
+                  resetFeedbackForm={() => dispatch(actions.reset("feedback"))}
+                />
+              }
+            />
+            <Route
+              path="/aboutus"
+              element={<AboutComponent leaders={leaders} />}
+            />
+            <Route path="*" element={<Navigate to="/home" replace />} />
+          </Routes>
+        </CSSTransition>
+      </TransitionGroup>
       <FooterComponent />
     </div>
   );
