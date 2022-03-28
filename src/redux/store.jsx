@@ -4,8 +4,6 @@ import commentReducer from './commentSlice'
 import promotionReducer from './promotionSlice'
 import leaderReducer from './leaderSlice'
 import feedbacksReducer from './feedbackSlice'
-import { createForms } from 'react-redux-form'
-import { InitialFeedback } from './form'
 
 export default configureStore({
   reducer: {
@@ -13,10 +11,6 @@ export default configureStore({
     comment: commentReducer,
     promotion: promotionReducer,
     leader: leaderReducer,
-    ...createForms({
-      feedback: InitialFeedback,
-    }),
     feedbacks: feedbacksReducer,
-
   },
 })

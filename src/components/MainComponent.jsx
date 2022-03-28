@@ -19,7 +19,6 @@ import { fetchFeedbacks, postFeedback } from "../redux/feedbackSlice";
 import { fetchDishes } from "../redux/dishSlice";
 import { fetchPromotions } from "../redux/promotionSlice";
 import { fetchLeaders } from "../redux/leaderSlice";
-import { actions } from "react-redux-form";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 function MainComponent(props) {
@@ -90,7 +89,6 @@ function MainComponent(props) {
               path="/contactus"
               element={
                 <ContactComponent
-                  resetFeedbackForm={() => dispatch(actions.reset("feedback"))}
                   postFeedback={(firstname, lastname, telnum, email, agree, contactType, message, id) => dispatch(postFeedback(firstname, lastname, telnum, email, agree, contactType, message, id))}
                   feedbacks={feedbacks}
                 />
